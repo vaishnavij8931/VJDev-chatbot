@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Browser Chat App</title>
+<style>
+body{
+    font-family: Arial;
+    background:#eef2ff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.chat{
+    width:350px;
+    background:white;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,0.2);
+    display:flex;
+    flex-direction:column;
+}
+.header{
+    background:#4f46e5;
+    color:white;
+    padding:10px;
+    text-align:center;
+}
+.messages{
+    flex:1;
+    padding:10px;
+    overflow-y:auto;
+}
+.msg{
+    background:#e0e7ff;
+    margin-bottom:8px;
+    padding:6px;
+    border-radius:5px;
+}
+.input{
+    display:flex;
+}
+input{
+    flex:1;
+    padding:8px;
+}
+button{
+    padding:8px;
+    background:#4f46e5;
+    color:white;
+    border:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="chat">
+    <div class="header">Browser Chat</div>
+    <div class="messages" id="chat"></div>
+    <div class="input">
+        <input id="text" placeholder="Type message">
+        <button onclick="send()">Send</button>
+    </div>
+</div>
+
+<script>
+let chat = document.getElementById("chat");
+let data = JSON.parse(localStorage.getItem("msgs")) || [];
+
+data.forEach(m => show(m));
+
+function send(){
+    let msg = document.getElementById("text").value;
+    if(msg=="") return;
+    show(msg);
+    data.push(msg);
+    localStorage.setItem("msgs", JSON.stringify(data));
+    document.getElementById("text").value="";
+}
+
+function show(m){
+    let d = document.createElement("div");
+    d.className="msg";
+    d.innerText=m;
+    chat.appendChild(d);
+}
+</script>
+
+</body>
+</html>
